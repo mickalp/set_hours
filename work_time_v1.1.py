@@ -322,7 +322,7 @@ for (day, hours), (k, v) in zip(input_dict.items(), remaining_hours.items()):
                     input_dict[day].append(entry)
                     remaining_hours -= hours_needed
                     hours_list.pop(i)
-                    # print(entry)
+
                 if remaining_hours == 0:
                     break
 
@@ -601,11 +601,6 @@ for k in range(len(dict_another)):
 df_sum = pd.DataFrame.from_dict(sum_dict)
 
 df_hour_project_final = pd.DataFrame([hours_project], columns=names_of_projects)
-
-
-
-
-
 
 
 
