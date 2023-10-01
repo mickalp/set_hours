@@ -15,13 +15,7 @@ import math
 import random as rn
 import time
 
-# =============================================================================
-# 1. Podsumowanie godzin projektowych i poza projektowych ; done
-# 
-# 2. Dodac wiersze puste, ze weekend ; done
-# 4. W prawidlowej formie godzinowej ; done
-# 5. Przedstawianie tego bardziej jak w formie excelu oryginalnym 
-# =============================================================================
+
 
 # =============================================================================
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
