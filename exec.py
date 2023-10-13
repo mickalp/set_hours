@@ -27,9 +27,12 @@ max_execution_time = 4  # Example: 10 seconds
 # The same "pt" must be in program czas_pr.py!!!
 # =============================================================================
 
+file_n = '/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/split_hours_for_company/set_hours/2023_06_Roboczogodziny_Rozliczenie_czerwiec_2023_AG_MK.xlsx'
 # Define the script to execute
 script_path = "/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/czas_pr.py"  # Replace with the path to your script
 pt = "/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/"
+
+
 
 # File paths
 user_input_file = pt + 'user_input.txt'
