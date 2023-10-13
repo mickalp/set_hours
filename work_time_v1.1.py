@@ -6,16 +6,12 @@ Created on Sat Sep  9 17:13:13 2023
 @author: michal
 """
 
-import sys
-import os
+
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import math
 import random as rn
-import time
 from classes import cutting_df, TimeFormatModifier
 from classes import file_n 
+import datetime
 
 
 
@@ -38,6 +34,15 @@ from classes import file_n
 # NORMAL COMMENT ARE CODE RELATED
 # =============================================================================
 
+current_month = datetime.date.today().month-1
+current_year = datetime.date.today().year
+if int(current_month) < 10:
+    current_month = f'0{current_month}'
+    
+    
+if int(current_month) == 1:
+    current_month = '12'
+    current_year -= 1
 
 
 
@@ -50,7 +55,7 @@ roboczo_godziny = pd.read_excel(io=file_n)
 
 
 # path_input = input('Path to file with name: ')
-path_input = '/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/czas_pracy/03.2023_prac_Wiśniewski_A(1).xlsx'
+path_input = '/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/czas_pracy/MK.xlsx'
 
 # =============================================================================
 # the same pt as in exe.py!!!
@@ -70,7 +75,7 @@ sub = 'C00'
 sub1 = "Wew"
 
 # user_input = input("The same NAME of WORKER as in Excel file: ")
-user_input = 'Adam Wiśniewski'
+user_input = 'Maria Konopnicka'
 
 with open(pt+'user_input.txt', 'w') as file:
     file.write(user_input)
@@ -93,6 +98,7 @@ aaa = df.iloc[-1:]
 # Iterate through the columns of the DataFrame
 aaa = aaa.dropna(axis=1)
 
+
 for column_name in aaa.columns:
     # Use the .loc indexer to select the column and check if any value is different from 0
     if (isinstance(aaa[column_name].iloc[0], int) and aaa[column_name].iloc[0] !=0) :
@@ -113,9 +119,6 @@ for col in day_of_the_week:
         weekends.append(col)
 
 
-
-
-        
 
 mm = cutting_df(0, 6, get_cut+1, day_of_the_week)
 
@@ -168,6 +171,7 @@ hour_per_day = df.iloc[name_index:name_index+1]
 cut_zest_per_worker = copy_df.iloc[name_index:name_index+7]
 
 #Find individual number of worker
+
 
 nr_str = '  Nr ewid.:'
 mask = cut_zest_per_worker.eq(nr_str)
@@ -282,11 +286,6 @@ while not all_lists_empty(project_list_with_hours):
         pass
     
 
-
-    
-
-
-  
 
 df_list_projects = []
 df_hours_projects = []
@@ -530,10 +529,11 @@ for k in range(len(dict_another)):
         if not str(day_month[dict_another[k].columns].values[0][j]) in data.keys():
             # print('nio ma')
             data[(str(day_month[dict_another[k].columns].values[0][j]))] = [[dict_another[k].index[0], dict_another[k].values[0][j]]]
-            
-
-
-
+        
+        
+# =============================================================================
+# if you want to add weekends uncomment below
+# =============================================================================
 # for l in weekende_date:
 #         l = str(l)
 #         if l not in data.keys():
@@ -572,9 +572,9 @@ for day, projects in data.items():
 
                 # Add the allocation to the day_data list
                 day_data.append(
-                    {'Day': day, 'Project': project_name,
-                                 'Hours_start': f'{current_hour}', 
-                                 'Hour_end':f'{end_hour}'}
+                    {'Data': day, 'Projekt': project_name,
+                                 'Godzina Od': f'{current_hour}', 
+                                 'Godzina Do':f'{end_hour}'}
                                 )
 
                 # Update the current hour and remaining hours
@@ -601,9 +601,9 @@ for day, projects in data.items():
             # Check if there are remaining hours to allocate
             if allocated_hours == 0:
                 day_data.append(
-                    {'Day': day, 'Project': project_name,
-                                 'Hours_start': '0', 
-                                 'Hour_end':'0'}
+                    {'Data': day, 'Projekt': project_name,
+                                 'Godzina Od': '0', 
+                                 'Godzina Do':'0'}
                                 )
     
                 
@@ -614,9 +614,9 @@ for day, projects in data.items():
     
                 # Add the allocation to the day_data list
                 day_data.append(
-                    {'Day': day, 'Project': project_name,
-                                 'Hours_start': f'{current_hour}', 
-                                 'Hour_end':f'{end_hour}'}
+                    {'Data': day, 'Projekt': project_name,
+                                 'Godzina Od': f'{current_hour}', 
+                                 'Godzina Do':f'{end_hour}'}
                                 )
     
                 # Update the current hour and remaining hours
@@ -631,14 +631,12 @@ for day, projects in data.items():
 # Concatenate all DataFrames into a single result DataFrame
 result_df = pd.concat(dfs, ignore_index=True)
 result_copy = result_df.copy()
-col_order = ['Day', 'Hours_start', 'Hour_end',  'Project']
-result_df = result_df[col_order]
 
 
 val_to_add = []
 for _ in range(len(result_copy)):
     
-    val = float(result_copy['Hour_end'].iloc[_])-float(result_copy['Hours_start'].iloc[_])
+    val = float(result_copy['Godzina Do'].iloc[_])-float(result_copy['Godzina Od'].iloc[_])
     val_to_add.append(val)
 
 
@@ -654,36 +652,45 @@ df_sum = pd.DataFrame.from_dict(sum_dict)
 df_hour_project_final = pd.DataFrame([hours_project], columns=names_of_projects)
 
 
-time_modifier = TimeFormatModifier(column_name='Hours_start')
+time_modifier = TimeFormatModifier(column_name='Godzina Od')
 time_modifier.modify_column(result_df)
 
-time_modifier = TimeFormatModifier(column_name='Hour_end')
+time_modifier = TimeFormatModifier(column_name='Godzina Do')
 time_modifier.modify_column(result_df)
 
 dict_val = {'Liczba godzin':val_to_add}
 df_val = pd.DataFrame.from_dict(dict_val)
 
 result_df = pd.concat([result_df, df_val], axis=1)
-col_order = ['Day', 'Hours_start', 'Hour_end', 'Liczba godzin', 'Project']
+col_order = ['Data', 'Godzina Od', 'Godzina Do', 'Liczba godzin', 'Projekt']
 result_df = result_df[col_order]
 
 nr_ewid_len = [nr_ewid] * len(result_copy)
 nr_ewid_col = pd.DataFrame({'Numer ewidencyjny': nr_ewid_len})
 
+proper_date = []
+for k in result_copy['Data']:
+    
+    if int(k) < 10:
+        k = f"{current_year}.{current_month}.0{k}"
+        # print(k)
+        proper_date.append(k)
+    else:
+        k = f'{current_year}.{current_month}.{k}'
+        proper_date.append(k)        
+        
 
 names_col = [user_input] * len(result_copy)
 names_df = pd.DataFrame({'Imię i Nazwisko':names_col})
-final_df = pd.concat([names_df,nr_ewid_col, result_df, df_sum, df_hour_project_final], axis=1)
+final_df = pd.concat([names_df,nr_ewid_col, result_df, df_sum, df_hour_project_final], 
+                     axis=1)
 
-
-
-
+final_df['Data'] = proper_date
 
 
 
 # Print the result DataFrame
-# print(final_df)
-
+print(final_df)
 
 
 # =============================================================================
@@ -692,7 +699,17 @@ final_df = pd.concat([names_df,nr_ewid_col, result_df, df_sum, df_hour_project_f
 
 final_df.to_excel(f'/Users/michal/Desktop/temp/{user_input}.xlsx', index=False)
 
-
 # =============================================================================
 # DONT TOUCH {user_input.xlsx}
 # =============================================================================
+
+
+
+    
+    
+
+    
+    
+    
+    
+    
