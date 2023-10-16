@@ -10,9 +10,9 @@ Created on Sat Sep  9 17:13:13 2023
 import pandas as pd
 import random as rn
 from classes import cutting_df, TimeFormatModifier
-from classes import file_n 
+from classes import file_n
 import datetime
-
+from openpyxl import load_workbook
 
 
 # =============================================================================
@@ -45,17 +45,13 @@ if int(current_month) == 1:
     current_year -= 1
 
 
-
 # Function to check if all lists in the list of lists are empty
 def all_lists_empty(lists):
     return all(not lst for lst in lists)
 
 
-roboczo_godziny = pd.read_excel(io=file_n)
-
-
-# path_input = input('Path to file with name: ')
-path_input = '/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/czas_pracy/MK.xlsx'
+path_input = input('Path to file with name: ')
+# path_input = '/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/czas_pracy/Lipska.xlsx'
 
 # =============================================================================
 # the same pt as in exe.py!!!
@@ -74,8 +70,8 @@ def search_string(s, search):
 sub = 'C00'
 sub1 = "Wew"
 
-# user_input = input("The same NAME of WORKER as in Excel file: ")
-user_input = 'Maria Konopnicka'
+user_input = input("The same NAME of WORKER as in Excel file: ")
+# user_input = 'Ewa Lipska'
 
 with open(pt+'user_input.txt', 'w') as file:
     file.write(user_input)
@@ -119,27 +115,33 @@ for col in day_of_the_week:
         weekends.append(col)
 
 
-
 mm = cutting_df(0, 6, get_cut+1, day_of_the_week)
-
 mm.dropin(mm.start_columns, mm.end_columns, mm.last_col, mm.df_name)
-
-
 day_of_the_week = day_of_the_week.astype('int64')
 
-
-
 df_worker = pd.read_excel(io=file_name, sheet_name=worker_sheet)
-df_worker["Indexes"]= df_worker[df_worker.columns[6]].str.find(sub)
-
 df_worker = df_worker[df_worker.ne(-1).all(axis=1)]
 
-index_hours = df_worker["Indexes"].dropna().index
+roboczo_godziny = pd.read_excel(io=file_n)
+roboczo_godziny.set_index('Unnamed: 0', inplace = True)
 
-names_of_projects = list(df_worker[df_worker.columns[6]][index_hours])
+f_name, s_name = user_input.split(' ')
+user_input_reverse = s_name+' '+f_name
+hours_project = list(roboczo_godziny[user_input_reverse]
+                     .dropna()
+                     )
 
-#hours in particular projects
-hours_project = list(df_worker['A'][index_hours])
+names_of_projects = list(roboczo_godziny[user_input_reverse]
+                     .dropna()
+                     .index)
+names_of_projects = ['praca na etacie' if isinstance(x, float) else x for x in names_of_projects]
+
+
+
+if (sum(hours_project)-hours_project[-1]*2) == 0:
+    names_of_projects.pop()
+    hours_project.pop()
+
 
 
 
@@ -181,16 +183,11 @@ col_index = mask.any().sum()+1
 nr_ewid = cut_zest_per_worker[cut_zest_per_worker.columns[col_index]].loc[row_index]
 
 
-
-
 hour_per_day = (hour_per_day.dropna(axis=1))
 columns_of_project_days = hour_per_day.columns
 hour_per_day = (hour_per_day.astype('float', copy=True)
                 )
 
-# print(names_of_projects)
-# print(hours_project)
-# print(day_of_the_week)
 
 for _ in range(len(hours_project)):
     new_dict[names_of_projects[_]] = hours_project[_]
@@ -225,17 +222,8 @@ for k, v in new_dict.items():
     project_list_with_hours.append(globals()[k])
 
 
-
-
-
-
 full_list = []
-
 time_in_day = hour_per_day.values[0][0]
-
-
-
-
 full_list = []
 only_hours = []
 hours_with_index = {}
@@ -347,9 +335,6 @@ for (day, hours), (k, v) in zip(input_dict.items(), remaining_hours.items()):
                 if remaining_hours == 0:
                     break
 
-
-
-
 data = input_dict
 
 # Initialize a dictionary to store the aggregated data
@@ -394,16 +379,9 @@ df = pd.DataFrame(rows, columns=['day', 'project', 'value'])
 df_val = df.copy()
 
 
-
-
-
-
 # Your original dictionary
 data = aggregated_data
 import pandas as pd
-
-
-
 
 
 dfs = []
@@ -413,9 +391,6 @@ cut_zest_per_worker = copy_df.iloc[name_index:name_index+7]
 
 keys_for_worker = list(cut_zest_per_worker['Zestawienie zbiorcze'].values)
 all_keys = list(df_worker[df_worker.columns[40]].iloc[9:36].values)
-
-
-
 
 
 keys_rows = {}
@@ -465,7 +440,6 @@ second_change_indicator = 'II'
 df_keys_copy = df_keys.copy()
 
 
-
 if second_change_indicator in df_keys.values:
     
     df_keys_copy = df_keys.iloc[0:1].dropna(axis=1).astype(str)
@@ -501,7 +475,6 @@ for k in keys_rows.keys():
             
             # Check if each element in each column is int or float
         df_temp = (pd.DataFrame(df_keys.loc[k])).T
-        # print(df_temp)
         result = df_temp.applymap(is_int_or_float)
 
         
@@ -509,7 +482,6 @@ for k in keys_rows.keys():
         column_contains_int_or_float = result.any()
 
         # df_temp = (pd.DataFrame(column_contains_int_or_float)).T
-        # # print(df_temp)
         for col in df_temp.columns:
             if column_contains_int_or_float[col]:
                 kl.append(col)
@@ -524,20 +496,17 @@ for k in range(len(dict_another)):
         if str(day_month[dict_another[k].columns].values[0][j]) in data.keys():
             data[(str(day_month[dict_another[k].columns].values[0][j]))].append([dict_another[k].index[0], dict_another[k].values[0][j]])
                 
-            # print('jest')
             
         if not str(day_month[dict_another[k].columns].values[0][j]) in data.keys():
-            # print('nio ma')
             data[(str(day_month[dict_another[k].columns].values[0][j]))] = [[dict_another[k].index[0], dict_another[k].values[0][j]]]
         
         
 # =============================================================================
-# if you want to add weekends uncomment below
+# if you want to add weekends uncomment below (uncomment means delete the # below, not in this line)
 # =============================================================================
 # for l in weekende_date:
 #         l = str(l)
 #         if l not in data.keys():
-#             print(l)
 #             data[l] = [['Weekend', 0.0]]
             
 
@@ -673,7 +642,6 @@ for k in result_copy['Data']:
     
     if int(k) < 10:
         k = f"{current_year}.{current_month}.0{k}"
-        # print(k)
         proper_date.append(k)
     else:
         k = f'{current_year}.{current_month}.{k}'
@@ -704,12 +672,30 @@ final_df.to_excel(f'/Users/michal/Desktop/temp/{user_input}.xlsx', index=False)
 # =============================================================================
 
 
+# Open the existing Excel file
+file_path = file_n
+# Create a new sheet
+new_sheet_name = f'Podsumowanie godzin {current_month}.{current_year}'
+ind_to_save = roboczo_godziny[roboczo_godziny.index.map(lambda x: isinstance(x, str))]
 
-    
-    
 
+
+df_pods = pd.DataFrame({f'Podsumowanie godzin {current_month}.{current_year}':list(ind_to_save.index), 
+                        'Wykazane':ind_to_save.sum(axis=1)})
+
+
+book = load_workbook(file_path)
+
+if len(book.sheetnames) == 1:
+    # Create a new Excel workbook and add the DataFrame to a new sheet
+    writer = pd.ExcelWriter(file_path, engine='openpyxl')
+    writer.book = book
+    df_pods.to_excel(writer, sheet_name=new_sheet_name, index=False)
     
-    
-    
-    
-    
+    # Save the changes to the Excel file
+    writer.save()
+
+else:
+    writer.close()
+
+
