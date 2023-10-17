@@ -21,14 +21,6 @@ from openpyxl import load_workbook
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # =============================================================================
 
-
-# =============================================================================
-# New Tasks:
-# od 36 wiersza w dol praca na etacie
-# czyli jednak rozpisywac w tym excelu
-#
-# =============================================================================
-
 # =============================================================================
 # WHEN YOU NEED TO MODIFY SOMETHING YOU WILL FIND COMMENT IN THIS FORM
 # NORMAL COMMENT ARE CODE RELATED
@@ -697,5 +689,7 @@ if len(book.sheetnames) == 1:
 
 else:
     writer.close()
+    print('Nie udało się dodać zakładki podsumowanie, sprawdź czy w Twoim pliku \
+          nie wysępuje więcej niż jedna zakładka')
 
 
