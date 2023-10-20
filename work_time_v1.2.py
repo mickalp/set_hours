@@ -43,7 +43,6 @@ def all_lists_empty(lists):
 
 
 path_input = input('Path to file with name: ')
-# path_input = '/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/czas_pracy/Lipska.xlsx'
 
 # =============================================================================
 # the same pt as in exe.py!!!
@@ -689,8 +688,6 @@ if len(book.sheetnames) == 1:
     writer.close()
 
 else:
-    # writer.save()
-    # writer.close()
     print('Nie udało się dodać zakładki podsumowanie, sprawdź czy w Twoim pliku \
           nie wysępuje więcej niż jedna zakładka')
 
