@@ -6,13 +6,16 @@ Created on Sun Oct  1 23:04:52 2023
 @author: michal
 """
 
+file_n = '/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/split_hours_for_company/set_hours/2023_06_Roboczogodziny_Rozliczenie_czerwiec_2023_AG_MK.xlsx'
+
+
 # Class to cutting orginal data into smaller portions
 # Start columns and end columns is range from the left side of dataframe
 # For example if start_columns =0, end_columns=5, 
 # five columns from left side will be droped
 # Last col should be add from the right side with -
 # i.e -5 ; five columns droped from right side
-file_n = '/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/split_hours_for_company/set_hours/2023_06_Roboczogodziny_Rozliczenie_czerwiec_2023_AG_MK.xlsx'
+
 
 class cutting_df:
     def __init__(self, start_columns, end_columns, last_col, df_name):

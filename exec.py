@@ -13,10 +13,10 @@ import os
 #extra changes
 
 # Set the total duration for script execution in seconds
-total_duration = 120  # Example: 60 seconds
+total_duration = 240  # Example: 60 seconds
 
 # Set the maximum execution time for each run of the script
-max_execution_time = 4  # Example: 10 seconds
+max_execution_time = 2  # Example: 10 seconds
 
 # Define the script to execute
 # =============================================================================
@@ -27,9 +27,8 @@ max_execution_time = 4  # Example: 10 seconds
 # The same "pt" must be in program czas_pr.py!!!
 # =============================================================================
 
-file_n = '/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/split_hours_for_company/set_hours/2023_06_Roboczogodziny_Rozliczenie_czerwiec_2023_AG_MK.xlsx'
 # Define the script to execute
-script_path = "/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/czas_pr.py"  # Replace with the path to your script
+script_path = "/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/split_hours_for_company/set_hours/work_time_v1.2.py"  # Replace with the path to your script
 pt = "/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/"
 
 
@@ -45,7 +44,8 @@ try:
         file.write(user_input)
 
     # Get user input for the path
-    path_input = input("Name of worker, the SAME AS IN EXCEL FILE: ")
+    path_input = input("The same NAME of WORKER as in Excel file \
+                       (First Name Surname): ")
     with open(path_input_file, 'w') as file:
         file.write(path_input)
 
@@ -80,7 +80,7 @@ try:
             print(f"Script execution exceeded {max_execution_time} seconds and was terminated. Retrying...")
 
         # Sleep for a moment to control the rate of script restarts
-        time.sleep(1)
+        time.sleep(0.01)
 
     # Continue with any cleanup or post-processing after the loop
 except Exception as e:
