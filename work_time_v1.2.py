@@ -686,9 +686,11 @@ if len(book.sheetnames) == 1:
     
     # Save the changes to the Excel file
     writer.save()
+    writer.close()
 
 else:
-    writer.close()
+    # writer.save()
+    # writer.close()
     print('Nie udało się dodać zakładki podsumowanie, sprawdź czy w Twoim pliku \
           nie wysępuje więcej niż jedna zakładka')
 

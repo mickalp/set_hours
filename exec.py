@@ -28,7 +28,7 @@ max_execution_time = 2  # Example: 10 seconds
 # =============================================================================
 
 # Define the script to execute
-script_path = "/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/split_hours_for_company/set_hours/work_time_v1.1.py"  # Replace with the path to your script
+script_path = "/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/split_hours_for_company/set_hours/work_time_v1.2.py"  # Replace with the path to your script
 pt = "/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/"
 
 
