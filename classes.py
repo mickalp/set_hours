@@ -5,8 +5,35 @@ Created on Sun Oct  1 23:04:52 2023
 
 @author: michal
 """
-
+# =============================================================================
+# Wpisz sciezke do pliku ze swoimi roboczo godzianmi
+# =============================================================================
 file_n = '/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/split_hours_for_company/set_hours/2023_06_Roboczogodziny_Rozliczenie_czerwiec_2023_AG_MK.xlsx'
+
+# =============================================================================
+# Sciezka do pliku z nazwa pliku /path_to_script/work_time_v1.x.py
+# =============================================================================
+script_path = "/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/split_hours_for_company/set_hours/work_time_v1.2.py"  # Replace with the path to your script
+
+# =============================================================================
+# Sciezka do folderu roboczego
+# =============================================================================
+pt = "/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/"
+
+# =============================================================================
+# Sciezka w której mają byc zapisywane Twoje pliki
+# =============================================================================
+pt_to_save = '/Users/michal/Desktop'
+
+# =============================================================================
+# Tutaj zamien jeden na zero jesli chcesz wybrac inny miesiac i rok wykonywania skryptu
+# niz ten poprzedzjący miesiąc, dla którego godziny zostały uzupełnione
+# jezeli godziny są dla miesiąca wrzesien, a skrypt jest uruchamiany w pazdierniku
+# nic nie musisz zmieniac
+# =============================================================================
+def_mnth = 0
+
+
 
 
 # Class to cutting orginal data into smaller portions
@@ -15,6 +42,9 @@ file_n = '/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDriv
 # five columns from left side will be droped
 # Last col should be add from the right side with -
 # i.e -5 ; five columns droped from right side
+
+
+
 
 
 class cutting_df:
