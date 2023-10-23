@@ -13,18 +13,8 @@ from classes import cutting_df, TimeFormatModifier
 from classes import file_n
 import datetime
 from openpyxl import load_workbook
+from classes import def_mnth, pt, pt_to_save
 
-
-# =============================================================================
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# YOU NEED TO MODIFY THIS SCRIPT PATHS AT THE BEGINNING AND END OF THIS SCRIPT
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# =============================================================================
-
-# =============================================================================
-# WHEN YOU NEED TO MODIFY SOMETHING YOU WILL FIND COMMENT IN THIS FORM
-# NORMAL COMMENT ARE CODE RELATED
-# =============================================================================
 
 current_month = datetime.date.today().month-1
 current_year = datetime.date.today().year
@@ -44,12 +34,6 @@ def all_lists_empty(lists):
 
 path_input = input('Path to file with name: ')
 
-# =============================================================================
-# the same pt as in exe.py!!!
-# =============================================================================
-pt = "/Users/michal/Library/CloudStorage/OneDrive-UniversityofGdansk/OneDrive - University of Gdansk (for Students)/agnieszka_gajewicz/"
-
-
 
 sheet_general = str('Zestawienie')
 worker_sheet = 'Prac 1'
@@ -62,7 +46,6 @@ sub = 'C00'
 sub1 = "Wew"
 
 user_input = input("The same NAME of WORKER as in Excel file: ")
-# user_input = 'Ewa Lipska'
 
 with open(pt+'user_input.txt', 'w') as file:
     file.write(user_input)
@@ -70,6 +53,14 @@ with open(pt+'user_input.txt', 'w') as file:
 with open(pt+'path_input.txt', 'w') as file:
     file.write(path_input)
 
+if def_mnth == 1:
+    month_year = input("Miesiac i rok: ")
+    with open(pt+'month_year.txt', 'w') as file:
+        file.write(month_year)
+        
+    current_month, current_year = month_year.split(" ")
+    if int(current_month) < 10:
+        current_month = f'0{current_month}'
 
 
 new_dict = {}
@@ -126,7 +117,6 @@ names_of_projects = list(roboczo_godziny[user_input_reverse]
                      .dropna()
                      .index)
 names_of_projects = ['praca na etacie' if isinstance(x, float) else x for x in names_of_projects]
-
 
 
 if (sum(hours_project)-hours_project[-1]*2) == 0:
@@ -214,7 +204,6 @@ for k, v in new_dict.items():
 
 
 full_list = []
-time_in_day = hour_per_day.values[0][0]
 full_list = []
 only_hours = []
 hours_with_index = {}
@@ -652,15 +641,7 @@ final_df['Data'] = proper_date
 print(final_df)
 
 
-# =============================================================================
-# HERE IN PLACE /Users/michal/Desktop/temp/ put directory to save files
-# =============================================================================
-
-final_df.to_excel(f'/Users/michal/Desktop/temp/{user_input}.xlsx', index=False)
-
-# =============================================================================
-# DONT TOUCH {user_input.xlsx}
-# =============================================================================
+final_df.to_excel(pt_to_save+f'/{user_input}.xlsx', index=False)
 
 
 # Open the existing Excel file
@@ -688,7 +669,6 @@ if len(book.sheetnames) == 1:
     writer.close()
 
 else:
-    print('Nie udało się dodać zakładki podsumowanie, sprawdź czy w Twoim pliku \
-          nie wysępuje więcej niż jedna zakładka')
+    print("""Nie udało się dodać zakładki podsumowanie, co oznacza, że w Twoim pliku jest już zakładka z podsumowaniem godzin lub znajdują się dodatkowe zakładki, których nie powinno być.""")
 
 
