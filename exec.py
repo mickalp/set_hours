@@ -10,6 +10,7 @@ import time
 import subprocess
 import os
 from classes import def_mnth, script_path, pt
+import sys
 #extra changes
 
 # Set the total duration for script execution in seconds
@@ -62,6 +63,7 @@ try:
                 exit_code = process.returncode
                 if exit_code == 0:
                     print("Script executed successfully. Stopping further executions.")
+                    sys.exit(0)
                     break
                 else:
                     print(f"Script execution exited with code {exit_code}. Retrying...")
@@ -72,6 +74,7 @@ try:
 
             # Sleep for a moment to control the rate of script restarts
             time.sleep(0.01)
+            
 
     else:
         pass
